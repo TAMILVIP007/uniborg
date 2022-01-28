@@ -3,6 +3,7 @@ Repeatedly downloads media and posts to @FileRefs
 when a FileReferenceExpiredError occurs
 """
 
+
 import asyncio
 import time
 
@@ -26,12 +27,11 @@ class File:
 
 storage.reload({File})
 
-channel_id = 1210997017
-things = {}
 files = {}
 main_loop = None
 
-things['Sticker from pack (channel)'] = Thing(channel_id, 4)
+channel_id = 1210997017
+things = {'Sticker from pack (channel)': Thing(channel_id, 4)}
 things['Sticker without pack (channel)'] = Thing(channel_id, 7)
 things['Photo (channel)'] = Thing(channel_id, 5)
 things['Document (channel)'] = Thing(channel_id, 6)
@@ -86,8 +86,6 @@ async def check_file(name, file):
         return False, False
     except errors.FileReferenceExpiredError:
         logger.info(f'Ref expired for {name}')
-        pass
-
     return await fetch_file(name)
 
 
@@ -97,10 +95,7 @@ async def send_times_message(changed):
         line = f'  {name}: '
         if name in changed:
             line = f'  <b>*{name}</b>: '
-        if file.prev_duration:
-            line += display_time(file.prev_duration)
-        else: 
-            line += 'Unknown'
+        line += display_time(file.prev_duration) if file.prev_duration else 'Unknown'
         lines.append(line)
 
     await borg.send_message(

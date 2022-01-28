@@ -43,7 +43,7 @@ async def on_him_reply(event):
     reply = await event.get_reply_message()
     if not reply or not reply.fwd_from:
         return
-    if reply and reply.fwd_from.from_id != person_id:
+    if reply.fwd_from.from_id != person_id:
         return
     text = blanks_re.sub('', event.raw_text)
     if text.startswith('>'):

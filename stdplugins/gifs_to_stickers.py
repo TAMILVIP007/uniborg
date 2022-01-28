@@ -61,8 +61,6 @@ async def try_with_stored_file(file_id, action):
             return await action(input_doc)
         except errors.FileReferenceExpiredError:
             logger.info(f'Cache expired for #{file_id}')
-            pass
-
     msg_id = file_msg_ids.get(file_id, None)
     if not msg_id:
         logger.error(f'No saved message associated with #{file_id}!')
@@ -103,9 +101,7 @@ async def on_sticker(event):
 
     await store_file(event.sticker)
 
-    # try to fetch and (re)save the gif for this sticker if we have it
-    gif_id = stickers_to_gifs.get(event.sticker.id, 0)
-    if gif_id:
+    if gif_id := stickers_to_gifs.get(event.sticker.id, 0):
         logger.info(f'(Re)saving GIF #{gif_id} for #{event.sticker.id}')
         success = await try_with_stored_file(
             gif_id,

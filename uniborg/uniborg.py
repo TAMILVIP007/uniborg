@@ -114,15 +114,8 @@ class Uniborg(TelegramClient):
         if self.me.bot:
             command = fr'{command}(?:@{self.me.username})?'
 
-        if pattern is not None:
-            pattern = fr'{command}\s+{pattern}'
-        else:
-            pattern = command
-
-        if not self.me.bot:
-            pattern=fr'^\.{pattern}'
-        else:
-            pattern=fr'^\/{pattern}'
+        pattern = fr'{command}\s+{pattern}' if pattern is not None else command
+        pattern = fr'^\.{pattern}' if not self.me.bot else fr'^\/{pattern}'
         pattern=fr'(?i){pattern}$'
 
         if self.me.bot and admin_only:
