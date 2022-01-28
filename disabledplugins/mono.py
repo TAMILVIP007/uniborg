@@ -21,7 +21,7 @@ async def _(e):
         return
     if user_id not in e.user_ids:
         return
-    
+
     fut = borg.await_event(
         events.NewMessage(chats=group_id, from_users=user_id)
     )
@@ -38,4 +38,3 @@ async def _(e):
             151462131,
             f'https://t.me/c/{group_id}/{e.action_message.id}'
         )
-        pass
